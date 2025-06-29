@@ -1,0 +1,75 @@
+
+body {
+  background-color: #1c1c1c;
+  color: #f0f0f0;
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+h1, h2, h3 {
+  color: #ff4655;
+}
+
+label {
+  display: inline-block;
+  width: 420px;
+  margin: 5px 0;
+}
+
+input, textarea, select {
+  width: 400px;
+  margin-bottom: 10px;
+  background-color: #2a2a2a;
+  color: white;
+  border: 1px solid #555;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+textarea {
+  height: 80px;
+}
+
+#slides, #order {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 2px dashed #666;
+  min-height: 100px;
+  background-color: #2a2a2a;
+}
+
+.slide {
+  background-color: #3d3d3d;
+  color: #fff;
+  padding: 15px;
+  min-width: 120px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: grab;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.slide textarea {
+  height: 220px;
+  background-color: #2a2a2a;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+button{
+  margin-top: 10px;
+  background-color: #ff4655;
+  border: none;
+  height: 30px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: white;
+}

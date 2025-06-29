@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SNG Editor</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script-2.js" defer></script>
+</head>
+<body>
+  <h1>SNG Editor</h1>
+
+  <input type="file" id="fileInput" accept=".sng" /><br /><br />
+
+  <h2>Song-Attribute</h2>
+  <div id="attributes">
+    <label>LangCount:<input id="LangCount" /></label>
+    <label>Title:<input id="Title" /></label>
+    <label>Author:<input id="Author" /></label>
+    <label>Copyright:<input id="(c)" /></label>
+    <label>Editor:<input id="Editor" /></label>
+    <label>Version:<input id="Version" /></label>
+    <label>Songbook:<input id="Songbook" /></label>
+    <label>Number:<input id="Number" /></label>
+    <label>SongNr:<input id="SongNr" /></label>
+    <label>Key:<input id="Key" /></label>
+    <label>Capo:<input id="Capo" /></label>
+    <label>CCLI:<input id="CCLI" /></label>
+    <label>Tempo:<input id="Tempo" /></label>
+    <label>Theme:<input id="Theme" /></label>
+    <label>Hintergrund:<input id="Background" /></label>
+  </div>
+
+  <h2>Folien bearbeiten</h2>
+  <div id="slides"></div>
+  <button id="addSlide">+ Neue Folie</button>
+
+  <div id="orderSection">
+    <h2>Reihenfolge</h2>
+    <div id="order"></div>
+  </div>
+  <button id="saveBtn">Speichern</button>
+</body>
+</html>
