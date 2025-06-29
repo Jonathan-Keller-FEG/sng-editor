@@ -1,15 +1,29 @@
 // Erweiterter JavaScript-Code – Drag-and-Drop zum Hinzufügen zur Reihenfolge und Umordnen innerhalb der Reihenfolge mit automatischer Zeichensatz-Erkennung
 
-document.getElementById('fileInput').addEventListener('change', function (e) {
-  const file = e.target.files[0];
-  if (!file) return;
+// --- Datei von URL laden, wenn fileUrl in URL vorhanden ---
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const fileUrlEncoded = urlParams.get('fileUrl');
+  const accessToken = urlParams.get('accessToken');
 
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    let content = e.target.result;
-    parseSNG(content);
-  };
-  reader.readAsText(file, 'latin1');
+  if (fileUrlEncoded) {
+    const fileUrl = decodeURIComponent(fileUrlEncoded);
+
+    // Datei vom OneDrive URL laden mit AccessToken im Header (falls vorhanden)
+    fetch(fileUrl, {
+      headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Datei konnte nicht geladen werden');
+        return res.text();
+      })
+      .then(text => {
+        parseSNG(text);
+      })
+      .catch(err => {
+        alert('Fehler beim Laden der Datei: ' + err.message);
+      });
+  }
 });
 
 let allSlides = [];
@@ -191,7 +205,17 @@ document.getElementById('addSlide').addEventListener('click', () => {
   renderSlides();
 });
 
+// --- Speichern via PUT an fileUrl ---
 document.getElementById('saveBtn').addEventListener('click', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const fileUrlEncoded = urlParams.get('fileUrl');
+  const accessToken = urlParams.get('accessToken');
+
+  if (!fileUrlEncoded) {
+    alert('Keine Datei-URL zum Speichern gefunden!');
+    return;
+  }
+
   let lines = [];
   document.querySelectorAll('#attributes input').forEach(input => {
     if (input.value.trim() !== '') {
@@ -212,13 +236,22 @@ document.getElementById('saveBtn').addEventListener('click', () => {
 
   const text = lines.join('\n');
 
-  // UTF-8 mit BOM
-  const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
-  const encoded = new TextEncoder().encode(text);
-  const blob = new Blob([bom, encoded], { type: 'text/plain;charset=utf-8' });
+  // PUT Request an fileUrl
+  const fileUrl = decodeURIComponent(fileUrlEncoded);
 
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'song.sng';
-  a.click();
+  fetch(fileUrl, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8',
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+    },
+    body: text
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('Datei konnte nicht gespeichert werden');
+      alert('Datei erfolgreich gespeichert!');
+    })
+    .catch(err => {
+      alert('Fehler beim Speichern der Datei: ' + err.message);
+    });
 });
